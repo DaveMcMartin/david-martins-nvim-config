@@ -131,6 +131,22 @@ return {
           },
         })
       end,
+      ["omnisharp"] = function()
+        -- configure c# server
+        lspconfig["omnisharp"].setup({
+          capabilities = capabilities,
+          cmd = { "dotnet", vim.fn.stdpath("data") .. "/mason/packages/omnisharp/libexec/OmniSharp.dll" },
+          enable_import_completion = true,
+          organize_imports_on_format = true,
+          enable_roslyn_analyzers = true,
+          root_dir = function(fname)
+            local primary = lspconfig.util.root_pattern("*.sln")(fname)
+            local fallback = lspconfig.util.root_pattern("*.csproj")(fname)
+            return primary or fallback
+          end,
+          filetypes = { "cs", "ashx" },
+        })
+      end,
     })
   end,
 }
