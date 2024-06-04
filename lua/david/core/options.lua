@@ -2,6 +2,9 @@ vim.cmd("let g:netrw_liststyle = 3")
 
 local opt = vim.opt
 
+-- cursor, use default always
+opt.guicursor = "n-v-i-c:block-Cursor"
+
 opt.relativenumber = true
 opt.number = true
 
