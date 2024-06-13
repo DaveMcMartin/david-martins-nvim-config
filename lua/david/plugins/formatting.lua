@@ -21,6 +21,7 @@ return {
         lua = { "stylua" },
         python = { "isort", "black" },
         csharp = { "csharpier" },
+        ruby = { "rubocop" },
       },
       format_on_save = false,
     })

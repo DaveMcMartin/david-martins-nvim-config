@@ -38,6 +38,7 @@ return {
         "prismals",
         "pyright",
         "omnisharp",
+        "ruby_lsp",
       },
     })
 
@@ -50,7 +51,8 @@ return {
         "pylint", -- python lint
         "eslint_d", -- js lint
         "omnisharp", -- C#
-        "yamlfix", -- yml files
+        "yamlfix", -- yml formatter
+        "rubocop", -- ruby formatter
       },
     })
   end,
