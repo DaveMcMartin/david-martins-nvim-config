@@ -38,8 +38,6 @@ return {
         "prismals",
         "pyright",
         "omnisharp",
-        "csharpier",
-        "yamlfix",
       },
     })
 
