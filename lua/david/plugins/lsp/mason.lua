@@ -37,7 +37,8 @@ return {
         "emmet_ls",
         "prismals",
         "pyright",
-        "omnisharp"
+        "omnisharp",
+        "csharpier",
       },
     })
 
@@ -49,7 +50,11 @@ return {
         "black", -- python formatter
         "pylint",
         "eslint_d",
-        "omnisharp"
+        "omnisharp",
+        -- xml stuff
+        "xmlformat",
+        -- yaml
+        "yamlfix",
       },
     })
   end,

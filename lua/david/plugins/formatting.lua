@@ -20,6 +20,7 @@ return {
         liquid = { "prettier" },
         lua = { "stylua" },
         python = { "isort", "black" },
+        csharp = { "csharpier" },
       },
       format_on_save = false,
     })
