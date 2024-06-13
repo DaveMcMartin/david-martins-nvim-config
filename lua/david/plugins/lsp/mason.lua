@@ -39,6 +39,7 @@ return {
         "pyright",
         "omnisharp",
         "csharpier",
+        "yamlfix",
       },
     })
 
@@ -48,13 +49,10 @@ return {
         "stylua", -- lua formatter
         "isort", -- python formatter
         "black", -- python formatter
-        "pylint",
-        "eslint_d",
-        "omnisharp",
-        -- xml stuff
-        "xmlformat",
-        -- yaml
-        "yamlfix",
+        "pylint", -- python lint
+        "eslint_d", -- js lint
+        "omnisharp", -- C#
+        "yamlfix", -- yml files
       },
     })
   end,
