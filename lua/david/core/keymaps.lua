@@ -14,6 +14,11 @@ keymap.set("n", "<C-u>", "<C-u>zz")
 keymap.set("n", "n", "nzz")
 keymap.set("n", "N", "Nzz")
 
+-- easy uppsercase and lowercase
+keymap.set("n", "<leader>icw", "viw~``", { noremap = true, silent = true })
+keymap.set("n", "<leader>ic", "~", { noremap = true, silent = true })
+keymap.set("v", "<leader>ic", "~", { noremap = true, silent = true })
+
 -- increment/decrement numbers
 keymap.set("n", "<leader>+", "<C-a>", { desc = "Increment number" }) -- increment
 keymap.set("n", "<leader>-", "<C-x>", { desc = "Decrement number" }) -- decrement
