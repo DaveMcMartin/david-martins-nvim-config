@@ -5,14 +5,16 @@ return {
     "mfussenegger/nvim-dap",
     "nvim-neotest/nvim-nio",
     "theHamsta/nvim-dap-virtual-text",
-    "leoluz/nvim-dap-go",
+    "leoluz/nvim-dap-go", -- Go adapter
+    "mxsdev/nvim-dap-vscode-js", -- JavaScript/TypeScript adapter
   },
   config = function()
     local dap = require("dap")
-    local ui = require("dapui")
+    local dapui = require("dapui")
 
+    -- Setup dependencies
     require("netcoredbg-macOS-arm64").setup(dap)
-    require("dapui").setup()
+    dapui.setup()
     require("dap-go").setup()
     require("nvim-dap-virtual-text").setup({})
 
@@ -38,7 +40,7 @@ return {
     end
 
     -- C# setup
-    local netcoredbg_path = vim.fn.exepath("netcoredbg") -- Ensure this is in your PATH
+    local netcoredbg_path = vim.fn.exepath("netcoredbg")
     if netcoredbg_path ~= "" then
       dap.adapters.coreclr = {
         type = "executable",
@@ -58,32 +60,92 @@ return {
       }
     end
 
-    vim.keymap.set("n", "<space>b", dap.toggle_breakpoint)
-    vim.keymap.set("n", "<space>gb", dap.run_to_cursor)
-
-    -- Eval var under cursor
-    vim.keymap.set("n", "<space>?", function()
-      require("dapui").eval(nil, { enter = true })
-    end)
-
-    vim.keymap.set("n", "<F1>", dap.continue)
-    vim.keymap.set("n", "<F2>", dap.step_into)
-    vim.keymap.set("n", "<F3>", dap.step_over)
-    vim.keymap.set("n", "<F4>", dap.step_out)
-    vim.keymap.set("n", "<F5>", dap.step_back)
-    vim.keymap.set("n", "<F13>", dap.restart)
-
-    dap.listeners.before.attach.dapui_config = function()
-      ui.open()
+    -- Go debugger setup
+    dap.adapters.go = function(callback, config)
+      local handle
+      local port = 38697
+      handle = vim.loop.spawn("dlv", {
+        args = { "dap", "-l", "127.0.0.1:" .. port },
+      }, function(code)
+        handle:close()
+        print("Delve exited with exit code: " .. code)
+      end)
+      -- Wait for delve to start
+      vim.defer_fn(function()
+        dap.repl.open()
+        callback({
+          type = "server",
+          host = "127.0.0.1",
+          port = port,
+        })
+      end, 100)
     end
-    dap.listeners.before.launch.dapui_config = function()
-      ui.open()
+
+    dap.configurations.go = {
+      {
+        type = "go",
+        name = "Debug",
+        request = "launch",
+        program = "${file}",
+      },
+    }
+
+    -- JavaScript/TypeScript setup
+    require("dap-vscode-js").setup({
+      adapters = { "pwa-node", "pwa-chrome", "pwa-msedge", "node-terminal", "pwa-extensionHost" },
+    })
+
+    for _, language in ipairs({ "typescript", "javascript" }) do
+      dap.configurations[language] = {
+        {
+          type = "pwa-node",
+          request = "launch",
+          name = "Launch file",
+          program = "${file}",
+          cwd = "${workspaceFolder}",
+        },
+        {
+          type = "pwa-node",
+          request = "attach",
+          name = "Attach",
+          processId = require("dap.utils").pick_process,
+          cwd = "${workspaceFolder}",
+        },
+      }
     end
-    dap.listeners.before.event_terminated.dapui_config = function()
-      ui.close()
+
+    -- Key mappings for DAP actions
+    local keymaps = {
+      ["<leader>b"] = dap.toggle_breakpoint,
+      ["<leader>gb"] = dap.run_to_cursor,
+      ["<leader>dc"] = dap.continue,
+      ["<leader>di"] = dap.step_into,
+      ["<leader>do"] = dap.step_over,
+      ["<leader>dt"] = dap.step_out,
+      ["<leader>db"] = dap.step_back,
+      ["<leader>dr"] = dap.restart,
+      ["<leader>?"] = function()
+        dapui.eval(nil, { enter = true })
+      end,
+      -- DAP UI
+      ["<leader>du"] = dapui.toggle, -- Toggle DAP UI
+    }
+
+    for key, cmd in pairs(keymaps) do
+      vim.keymap.set("n", key, cmd)
     end
-    dap.listeners.before.event_exited.dapui_config = function()
-      ui.close()
+
+    -- DAP UI open/close on events
+    dap.listeners.before["dapui_config"] = function()
+      dapui.open()
+    end
+
+    dap.listeners.before.event_terminated["dapui_config"] = function()
+      dapui.close()
+    end
+
+    dap.listeners.before.event_exited["dapui_config"] = function()
+      dapui.close()
     end
   end,
 }
