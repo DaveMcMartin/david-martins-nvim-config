@@ -1,10 +1,11 @@
+local defaultKeymapOps = { noremap = true, silent = true }
 vim.g.mapleader = " "
 
 local keymap = vim.keymap -- for conciseness
 
 keymap.set("i", "jk", "<ESC>", { desc = "Exit insert mode with jk" })
 
-keymap.set("n", "<leader>nh", ":nohl<CR>", { desc = "Clear search highlights" })
+keymap.set("n", "<leader>cl", ":nohl<CR>", { desc = "Clear search highlights" })
 
 -- optimize half page jumping
 keymap.set("n", "<C-d>", "<C-d>zz")
@@ -14,10 +15,14 @@ keymap.set("n", "<C-u>", "<C-u>zz")
 keymap.set("n", "n", "nzz")
 keymap.set("n", "N", "Nzz")
 
+-- move selected lines up or down using C-j and C-k
+keymap.set("v", "<C-k>", ":move '<-2<CR>gv=gv", defaultKeymapOps)
+keymap.set("v", "<C-j>", ":move '>+1<CR>gv=gv", defaultKeymapOps)
+
 -- easy uppsercase and lowercase
-keymap.set("n", "<leader>icw", "viw~``", { noremap = true, silent = true })
-keymap.set("n", "<leader>ic", "~", { noremap = true, silent = true })
-keymap.set("v", "<leader>ic", "~", { noremap = true, silent = true })
+keymap.set("n", "<leader>icw", "viw~``", defaultKeymapOps)
+keymap.set("n", "<leader>ic", "~", defaultKeymapOps)
+keymap.set("v", "<leader>ic", "~", defaultKeymapOps)
 
 -- increment/decrement numbers
 keymap.set("n", "<leader>+", "<C-a>", { desc = "Increment number" }) -- increment
