@@ -10,7 +10,6 @@ return {
         typescript = { "prettier" },
         javascriptreact = { "prettier" },
         typescriptreact = { "prettier" },
-        svelte = { "prettier" },
         css = { "prettier" },
         html = { "prettier" },
         json = { "prettier" },
@@ -22,6 +21,7 @@ return {
         python = { "isort", "black" },
         csharp = { "csharpier" },
         ruby = { "rubocop" },
+        go = { "golines" },
       },
       format_on_save = false,
     })
