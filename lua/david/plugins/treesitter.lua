@@ -43,6 +43,7 @@ return {
         "c",
         "c_sharp",
         "go",
+        "elixir",
       },
       incremental_selection = {
         enable = true,
