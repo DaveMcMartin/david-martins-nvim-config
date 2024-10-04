@@ -42,10 +42,7 @@ return {
         "vimdoc",
         "c",
         "c_sharp",
-        "go",
-        "elixir",
-        "eex",
-        "heex",
+        "ruby",
       },
       incremental_selection = {
         enable = true,

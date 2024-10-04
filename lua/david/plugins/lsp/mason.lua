@@ -32,14 +32,12 @@ return {
         "cssls",
         "tailwindcss",
         "lua_ls",
-        "gopls",
         "graphql",
         "emmet_ls",
         "prismals",
         "pyright",
         "omnisharp",
         "ruby_lsp",
-        "elixirls",
       },
     })
 
@@ -54,8 +52,6 @@ return {
         "omnisharp", -- C#
         "yamlfix", -- yml formatter
         "rubocop", -- ruby formatter
-        "golines", -- go formatter
-        "golangci-lint", -- go linter
       },
     })
   end,

@@ -5,7 +5,6 @@ return {
     "mfussenegger/nvim-dap",
     "nvim-neotest/nvim-nio",
     "theHamsta/nvim-dap-virtual-text",
-    "leoluz/nvim-dap-go", -- Go adapter
     "mxsdev/nvim-dap-vscode-js", -- JavaScript/TypeScript adapter
   },
   config = function()
@@ -15,29 +14,7 @@ return {
     -- Setup dependencies
     require("netcoredbg-macOS-arm64").setup(dap)
     dapui.setup()
-    require("dap-go").setup()
     require("nvim-dap-virtual-text").setup({})
-
-    -- Elixir setup
-    local elixir_ls_debugger = vim.fn.exepath("elixir-ls-debugger")
-    if elixir_ls_debugger ~= "" then
-      dap.adapters.mix_task = {
-        type = "executable",
-        command = elixir_ls_debugger,
-      }
-
-      dap.configurations.elixir = {
-        {
-          type = "mix_task",
-          name = "phoenix server",
-          task = "phx.server",
-          request = "launch",
-          projectDir = "${workspaceFolder}",
-          exitAfterTaskReturns = false,
-          debugAutoInterpretAllModules = false,
-        },
-      }
-    end
 
     -- C# setup
     local netcoredbg_path = vim.fn.exepath("netcoredbg")
@@ -154,36 +131,6 @@ return {
         },
       }
     end
-
-    -- Go debugger setup
-    dap.adapters.go = function(callback, config)
-      local handle
-      local port = 38697
-      handle = vim.loop.spawn("dlv", {
-        args = { "dap", "-l", "127.0.0.1:" .. port },
-      }, function(code)
-        handle:close()
-        print("Delve exited with exit code: " .. code)
-      end)
-      -- Wait for delve to start
-      vim.defer_fn(function()
-        dap.repl.open()
-        callback({
-          type = "server",
-          host = "127.0.0.1",
-          port = port,
-        })
-      end, 100)
-    end
-
-    dap.configurations.go = {
-      {
-        type = "go",
-        name = "Debug",
-        request = "launch",
-        program = "${file}",
-      },
-    }
 
     -- JavaScript/TypeScript setup
     require("dap-vscode-js").setup({

@@ -85,17 +85,6 @@ return {
           capabilities = capabilities,
         })
       end,
-      ["tailwindcss"] = function()
-        lspconfig["tailwindcss"].setup({
-          init_options = {
-            userLanguages = {
-              elixir = "html-eex",
-              eelixir = "html-eex",
-              heex = "html-eex",
-            },
-          },
-        })
-      end,
       ["graphql"] = function()
         -- configure graphql language server
         lspconfig["graphql"].setup({
@@ -141,19 +130,6 @@ return {
             return primary or fallback
           end,
           filetypes = { "cs", "ashx" },
-        })
-      end,
-      ["gopls"] = function()
-        -- configure go server
-        lspconfig["gopls"].setup({
-          capabilities = capabilities,
-          enable_import_completion = true,
-          organize_imports_on_format = true,
-          root_dir = function(fname)
-            local primary = lspconfig.util.root_pattern("go.mod")(fname)
-            return primary
-          end,
-          filetypes = { "go" },
         })
       end,
     })

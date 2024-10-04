@@ -13,7 +13,7 @@ return {
         css = { "prettier" },
         html = { "prettier" },
         json = { "prettier" },
-        yaml = { "yamlfix", "prettier" },
+        yaml = { "yamlfix" },
         markdown = { "prettier" },
         graphql = { "prettier" },
         liquid = { "prettier" },
@@ -21,7 +21,6 @@ return {
         python = { "isort", "black" },
         csharp = { "csharpier" },
         ruby = { "rubocop" },
-        go = { "golines" },
       },
       format_on_save = false,
     })
