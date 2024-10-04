@@ -85,6 +85,17 @@ return {
           capabilities = capabilities,
         })
       end,
+      ["tailwindcss"] = function()
+        lspconfig["tailwindcss"].setup({
+          init_options = {
+            userLanguages = {
+              elixir = "html-eex",
+              eelixir = "html-eex",
+              heex = "html-eex",
+            },
+          },
+        })
+      end,
       ["graphql"] = function()
         -- configure graphql language server
         lspconfig["graphql"].setup({

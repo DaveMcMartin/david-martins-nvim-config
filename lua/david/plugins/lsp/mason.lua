@@ -39,6 +39,7 @@ return {
         "pyright",
         "omnisharp",
         "ruby_lsp",
+        "elixirls",
       },
     })
 

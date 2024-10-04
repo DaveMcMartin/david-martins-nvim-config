@@ -44,6 +44,8 @@ return {
         "c_sharp",
         "go",
         "elixir",
+        "eex",
+        "heex",
       },
       incremental_selection = {
         enable = true,
