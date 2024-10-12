@@ -85,6 +85,11 @@ return {
           capabilities = capabilities,
         })
       end,
+      ["elixirls"] = function()
+        lspconfig["elixirls"].setup({
+          capabilities = capabilities,
+        })
+      end,
       ["graphql"] = function()
         -- configure graphql language server
         lspconfig["graphql"].setup({

@@ -43,6 +43,8 @@ return {
         "c",
         "c_sharp",
         "ruby",
+        "elixir",
+        "eex",
       },
       incremental_selection = {
         enable = true,
