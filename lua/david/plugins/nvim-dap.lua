@@ -10,6 +10,7 @@ return {
   config = function()
     local dap = require("dap")
     local dapui = require("dapui")
+    local Path = require("plenary.path") -- Correctly use plenary path
 
     -- Setup dependencies
     require("netcoredbg-macOS-arm64").setup(dap)
@@ -17,14 +18,14 @@ return {
     require("nvim-dap-virtual-text").setup({})
 
     -- C# setup
-    local netcoredbg_path = vim.fn.exepath("netcoredbg")
-    if netcoredbg_path ~= "" then
-      dap.adapters.netcoredbg = {
-        type = "executable",
-        command = netcoredbg_path,
-        args = { "--interpreter=vscode" },
-      }
-    end
+    local mason_install_dir = Path:new(vim.fn.stdpath("data"), "mason") -- Correct usage of Path:new()
+    dap.adapters.coreclr = {
+      type = "executable",
+      command = mason_install_dir:joinpath("packages", "netcoredbg", "netcoredbg").filename, -- Use joinpath and filename correctly
+      args = { "--interpreter=vscode" },
+    }
+    -- Neotest Test runner looks at this table
+    dap.adapters.netcoredbg = vim.deepcopy(dap.adapters.coreclr)
 
     -- JavaScript/TypeScript setup
     require("dap-vscode-js").setup({
@@ -57,7 +58,7 @@ return {
     vim.keymap.set("n", "<leader>di", dap.step_into, { desc = "Step Into" })
     vim.keymap.set("n", "<leader>do", dap.step_over, { desc = "Step Over" })
     vim.keymap.set("n", "<leader>dt", dap.step_out, { desc = "Step Out" })
-    vim.keymap.set("n", "<leader>db", dap.step_back, { desc = "Step back" })
+    vim.keymap.set("n", "<leader>db", dap.step_back, { desc = "Step Back" })
     vim.keymap.set("n", "<leader>dr", dap.restart, { desc = "Restart Debug" })
     vim.keymap.set("n", "<leader>?", function()
       dapui.eval(nil, { enter = true })
@@ -65,7 +66,7 @@ return {
     vim.keymap.set("n", "<leader>du", dapui.toggle, { desc = "Toggle DAP UI" })
 
     -- DAP UI open/close on events
-    dap.listeners.before["dapui_config"] = function()
+    dap.listeners.after.event_initialized["dapui_config"] = function()
       dapui.open()
     end
 
