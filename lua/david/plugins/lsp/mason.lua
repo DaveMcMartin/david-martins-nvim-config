@@ -5,12 +5,8 @@ return {
     "WhoIsSethDaniel/mason-tool-installer.nvim",
   },
   config = function()
-    -- import mason
     local mason = require("mason")
-
-    -- import mason-lspconfig
     local mason_lspconfig = require("mason-lspconfig")
-
     local mason_tool_installer = require("mason-tool-installer")
 
     -- enable mason and configure icons
@@ -36,7 +32,7 @@ return {
         "emmet_ls",
         "prismals",
         "pyright",
-        "omnisharp",
+        "csharp_ls",
         "ruby_lsp",
       },
     })
@@ -49,7 +45,7 @@ return {
         "black", -- python formatter
         "pylint", -- python lint
         "eslint_d", -- js lint
-        "omnisharp", -- C#
+        "csharp_ls", -- C#
         "yamlfix", -- yml formatter
         "rubocop", -- ruby formatter
       },

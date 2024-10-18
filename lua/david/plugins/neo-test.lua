@@ -29,11 +29,13 @@ return {
     local keymap = vim.keymap -- for conciseness
 
     keymap.set("n", "<leader>tt", function()
-      neotest.run.run()
+      neotest.run.run(vim.fn.getcwd())
+      neotest.summary.open()
     end, { desc = "Run nearest test" })
 
-    keymap.set("n", "<leader>ti", function()
+    keymap.set("n", "<leader>tf", function()
       neotest.run.run(vim.fn.expand("%"))
+      neotest.summary.open()
     end, { desc = "Run current file" })
 
     keymap.set("n", "<leader>td", function()
@@ -42,10 +44,11 @@ return {
 
     keymap.set("n", "<leader>ts", function()
       neotest.run.stop()
+      neotest.summary.close()
     end, { desc = "Stop running the neared test" })
 
-    keymap.set("n", "<leader>ta", function()
-      neotest.run.attach()
-    end, { desc = "Attach to the nearest test" })
+    keymap.set("n", "<leader>tc", function()
+      neotest.summary.toggle()
+    end, { desc = "Toggle test summary" })
   end,
 }

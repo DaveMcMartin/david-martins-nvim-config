@@ -7,13 +7,8 @@ return {
     { "folke/neodev.nvim", opts = {} },
   },
   config = function()
-    -- import lspconfig plugin
     local lspconfig = require("lspconfig")
-
-    -- import mason_lspconfig plugin
     local mason_lspconfig = require("mason-lspconfig")
-
-    -- import cmp-nvim-lsp plugin
     local cmp_nvim_lsp = require("cmp_nvim_lsp")
 
     local keymap = vim.keymap -- for conciseness
@@ -121,20 +116,16 @@ return {
           },
         })
       end,
-      ["omnisharp"] = function()
-        -- configure c# server
-        lspconfig["omnisharp"].setup({
-          capabilities = capabilities,
-          cmd = { "dotnet", vim.fn.stdpath("data") .. "/mason/packages/omnisharp/libexec/OmniSharp.dll" },
-          enable_import_completion = true,
-          organize_imports_on_format = true,
-          enable_roslyn_analyzers = true,
-          root_dir = function(fname)
-            local primary = lspconfig.util.root_pattern("*.sln")(fname)
-            local fallback = lspconfig.util.root_pattern("*.csproj")(fname)
-            return primary or fallback
-          end,
-          filetypes = { "cs", "ashx" },
+      ["csharp_ls"] = function()
+        lspconfig["csharp_ls"].setup({
+          cmd = { "csharp-ls" },
+          settings = {
+            enablePackageRestore = false,
+            enableEditorConfigSupport = true,
+            includePrereleases = true,
+          },
+          filetypes = { "cs" },
+          root_dir = require("lspconfig").util.root_pattern("*.sln", "*.csproj", ".git"),
         })
       end,
     })
