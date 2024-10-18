@@ -5,29 +5,101 @@ return {
     "mfussenegger/nvim-dap",
     "nvim-neotest/nvim-nio",
     "theHamsta/nvim-dap-virtual-text",
-    "mxsdev/nvim-dap-vscode-js", -- JavaScript/TypeScript adapter
+    "mxsdev/nvim-dap-vscode-js",
   },
   config = function()
     local dap = require("dap")
     local dapui = require("dapui")
-    local Path = require("plenary.path") -- Correctly use plenary path
+    local Path = require("plenary.path")
 
     -- Setup dependencies
     require("netcoredbg-macOS-arm64").setup(dap)
     dapui.setup()
     require("nvim-dap-virtual-text").setup({})
 
-    -- C# setup
-    local mason_install_dir = Path:new(vim.fn.stdpath("data"), "mason") -- Correct usage of Path:new()
-    dap.adapters.coreclr = {
-      type = "executable",
-      command = mason_install_dir:joinpath("packages", "netcoredbg", "netcoredbg").filename, -- Use joinpath and filename correctly
-      args = { "--interpreter=vscode" },
-    }
-    -- Neotest Test runner looks at this table
-    dap.adapters.netcoredbg = vim.deepcopy(dap.adapters.coreclr)
+    -- Function to find the main project file and its corresponding DLL
+    local function find_main_project()
+      -- First, find Program.cs
+      local program_cs = vim.fn.glob("**/Program.cs", false, true)
+      if #program_cs == 0 then
+        print("No Program.cs found in the workspace")
+        return nil
+      end
 
-    -- JavaScript/TypeScript setup
+      -- Get the directory containing Program.cs
+      local program_dir = vim.fn.fnamemodify(program_cs[1], ":h")
+
+      -- Find the corresponding .csproj file in the same directory
+      local csproj_files = vim.fn.glob(program_dir .. "/*.csproj", false, true)
+      if #csproj_files == 0 then
+        print("No .csproj file found in the Program.cs directory")
+        return nil
+      end
+
+      return csproj_files[1]
+    end
+
+    local function get_dll_path()
+      local main_project = find_main_project()
+      if not main_project then
+        return nil
+      end
+
+      -- Build the project
+      local project_dir = vim.fn.fnamemodify(main_project, ":h")
+      local project_name = vim.fn.fnamemodify(main_project, ":t:r")
+
+      -- Run dotnet build
+      local result = vim.fn.system(string.format("dotnet build -c Debug %s", main_project))
+      if vim.v.shell_error ~= 0 then
+        print("Build failed: " .. result)
+        return nil
+      end
+
+      -- Look for the DLL in standard output paths
+      local possible_paths = {
+        string.format("%s/bin/Debug/net9.0/%s.dll", project_dir, project_name),
+        string.format("%s/bin/Debug/net8.0/%s.dll", project_dir, project_name),
+        string.format("%s/bin/Debug/net7.0/%s.dll", project_dir, project_name),
+        string.format("%s/bin/Debug/net6.0/%s.dll", project_dir, project_name),
+      }
+
+      for _, path in ipairs(possible_paths) do
+        if vim.fn.filereadable(path) == 1 then
+          return path
+        end
+      end
+
+      print("Could not find DLL file after build")
+      return nil
+    end
+
+    -- C# setup
+    local netcoredbg_path = vim.fn.exepath("netcoredbg")
+
+    if netcoredbg_path ~= "" then
+      dap.adapters.coreclr = {
+        type = "executable",
+        command = netcoredbg_path,
+        args = { "--interpreter=vscode" },
+      }
+      dap.adapters.netcoredbg = vim.deepcopy(dap.adapters.coreclr)
+    end
+
+    dap.configurations.cs = {
+      {
+        type = "coreclr",
+        name = "Launch - .NET Core",
+        request = "launch",
+        program = function()
+          return get_dll_path() or ""
+        end,
+        cwd = "${workspaceFolder}",
+        stopAtEntry = false,
+      },
+    }
+
+    -- JavaScript/TypeScript setup (unchanged)
     require("dap-vscode-js").setup({
       adapters = { "pwa-node", "pwa-chrome", "pwa-msedge", "node-terminal", "pwa-extensionHost" },
     })
@@ -51,7 +123,7 @@ return {
       }
     end
 
-    -- Key mappings for DAP actions
+    -- Key mappings (unchanged)
     vim.keymap.set("n", "<leader>b", dap.toggle_breakpoint, { desc = "Toggle Breakpoint" })
     vim.keymap.set("n", "<leader>gb", dap.run_to_cursor, { desc = "Run to Cursor" })
     vim.keymap.set("n", "<leader>dc", dap.continue, { desc = "Continue" })
@@ -65,7 +137,7 @@ return {
     end)
     vim.keymap.set("n", "<leader>du", dapui.toggle, { desc = "Toggle DAP UI" })
 
-    -- DAP UI open/close on events
+    -- DAP UI event handlers (unchanged)
     dap.listeners.after.event_initialized["dapui_config"] = function()
       dapui.open()
     end
