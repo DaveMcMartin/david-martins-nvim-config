@@ -13,7 +13,9 @@ return {
 
     neotest.setup({
       adapters = {
-        require("neotest-dotnet"),
+        require("neotest-dotnet")({
+          discovery_root = "solution",
+        }),
         require("neotest-jest")({
           jestCommand = "npm test --",
           jestConfigFile = "custom.jest.config.ts",
@@ -29,18 +31,18 @@ return {
     local keymap = vim.keymap -- for conciseness
 
     keymap.set("n", "<leader>tt", function()
-      neotest.run.run(vim.fn.getcwd())
       neotest.summary.open()
+      neotest.run.run()
     end, { desc = "Run nearest test" })
 
     keymap.set("n", "<leader>tf", function()
-      neotest.run.run(vim.fn.expand("%"))
       neotest.summary.open()
+      neotest.run.run(vim.fn.expand("%"))
     end, { desc = "Run current file" })
 
     keymap.set("n", "<leader>td", function()
       neotest.run.run({ strategy = "dap" })
-    end, { desc = "Run nearest file in debug mode" })
+    end, { desc = "Run nearest test in debug mode" })
 
     keymap.set("n", "<leader>ts", function()
       neotest.run.stop()
