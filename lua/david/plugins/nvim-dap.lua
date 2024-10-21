@@ -82,6 +82,9 @@ return {
         type = "executable",
         command = netcoredbg_path,
         args = { "--interpreter=vscode" },
+        env = {
+          ASPNETCORE_ENVIRONMENT = "development",
+        },
       }
       dap.adapters.netcoredbg = vim.deepcopy(dap.adapters.coreclr)
     end
@@ -96,6 +99,9 @@ return {
         end,
         cwd = "${workspaceFolder}",
         stopAtEntry = false,
+        env = {
+          ASPNETCORE_ENVIRONMENT = "development",
+        },
       },
     }
 
