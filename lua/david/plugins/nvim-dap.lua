@@ -10,12 +10,19 @@ return {
   config = function()
     local dap = require("dap")
     local dapui = require("dapui")
-    local Path = require("plenary.path")
 
     -- Setup dependencies
     require("netcoredbg-macOS-arm64").setup(dap)
     dapui.setup()
     require("nvim-dap-virtual-text").setup({})
+
+    -- highlight current Breakpoint Line
+    local sign = vim.fn.sign_define
+
+    sign("DapBreakpoint", { text = "●", texthl = "DapBreakpoint", linehl = "", numhl = "" })
+    sign("DapBreakpointCondition", { text = "●", texthl = "DapBreakpointCondition", linehl = "", numhl = "" })
+    sign("DapLogPoint", { text = "◆", texthl = "DapLogPoint", linehl = "", numhl = "" })
+    sign("DapStopped", { text = "", texthl = "DapStopped", linehl = "DapStopped", numhl = "DapStopped" })
 
     -- Function to find the main project file and its corresponding DLL
     local function find_main_project()
