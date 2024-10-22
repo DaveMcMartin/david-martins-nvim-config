@@ -18,14 +18,14 @@ return {
         graphql = { "prettier" },
         liquid = { "prettier" },
         lua = { "stylua" },
-        python = { "isort", "black" },
+        python = { "black" },
         csharp = { "csharpier" },
         ruby = { "rubocop" },
       },
       format_on_save = false,
     })
 
-    vim.keymap.set({ "n", "v" }, "<leader>mp", function()
+    vim.keymap.set({ "n", "v" }, "<leader>fc", function()
       conform.format({
         lsp_fallback = true,
         async = false,

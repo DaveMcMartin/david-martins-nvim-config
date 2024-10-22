@@ -45,6 +45,7 @@ return {
         "ruby",
         "elixir",
         "eex",
+        "python",
       },
       incremental_selection = {
         enable = true,

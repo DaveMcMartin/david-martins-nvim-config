@@ -41,13 +41,13 @@ return {
       ensure_installed = {
         "prettier", -- prettier formatter
         "stylua", -- lua formatter
-        "isort", -- python formatter
         "black", -- python formatter
         "pylint", -- python lint
         "eslint_d", -- js lint
         "csharp_ls", -- C#
         "yamlfix", -- yml formatter
         "rubocop", -- ruby formatter
+        "csharpier", -- C# formatter
       },
     })
   end,
