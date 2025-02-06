@@ -21,7 +21,7 @@ return {
         python = { "black" },
         csharp = { "csharpier" },
         ruby = { "rubocop" },
-        erb = { "erb-format" },
+        eruby = { "erb_format" },
       },
       format_on_save = false,
     })

@@ -49,7 +49,6 @@ return {
         "rubocop", -- ruby formatter
         "csharpier", -- C# formatter
         "erb-lint", -- embeded ruby lintint
-        "erb-formatter", -- embeded ruby lintint
       },
     })
   end,
