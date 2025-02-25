@@ -5,6 +5,7 @@ return {
     "hrsh7th/cmp-nvim-lsp",
     { "antosha417/nvim-lsp-file-operations", config = true },
     { "folke/neodev.nvim", opts = {} },
+    "p00f/clangd_extensions.nvim",
   },
   config = function()
     local lspconfig = require("lspconfig")
@@ -59,6 +60,9 @@ return {
 
         opts.desc = "Restart LSP"
         keymap.set("n", "<leader>rs", ":LspRestart<CR>", opts) -- mapping to restart lsp if necessary
+
+        opts.desc = "Switch Source/Header (C/C++)"
+        keymap.set("n", "<leader>hc", "<cmd>ClangdSwitchSourceHeader<cr>", opts)
       end,
     })
 
@@ -125,7 +129,41 @@ return {
             includePrereleases = true,
           },
           filetypes = { "cs" },
-          root_dir = require("lspconfig").util.root_pattern("*.sln", "*.csproj", ".git"),
+          root_dir = lspconfig.util.root_pattern("*.sln", "*.csproj", ".git"),
+        })
+      end,
+      ["clangd"] = function()
+        capabilities.offsetEncoding = "utf-16"
+
+        lspconfig["csharp_ls"].setup({
+          root_dir = function(fname)
+            return lspconfig.util.root_pattern(
+              "Makefile",
+              "configure.ac",
+              "configure.in",
+              "config.h.in",
+              "meson.build",
+              "meson_options.txt",
+              "build.ninja"
+            )(fname) or lspconfig.util.root_pattern("compile_commands.json", "compile_flags.txt")(fname) or lspconfig.util.find_git_ancestor(
+              fname
+            )
+          end,
+          capabilities = capabilities,
+          cmd = {
+            "clangd",
+            "--background-index",
+            "--clang-tidy",
+            "--header-insertion=iwyu",
+            "--completion-style=detailed",
+            "--function-arg-placeholders",
+            "--fallback-style=llvm",
+          },
+          init_options = {
+            usePlaceholders = true,
+            completeUnimported = true,
+            clangdFileStatus = true,
+          },
         })
       end,
     })

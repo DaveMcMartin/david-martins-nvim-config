@@ -41,6 +41,7 @@ return {
         "query",
         "vimdoc",
         "c",
+        "cpp",
         "c_sharp",
         "ruby",
         "elixir",

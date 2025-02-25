@@ -15,32 +15,14 @@ return {
     "saadparwaiz1/cmp_luasnip", -- for autocompletion
     "rafamadriz/friendly-snippets", -- useful snippets
     "onsails/lspkind.nvim", -- vs-code like pictograms
-    "nvim-lua/plenary.nvim", -- cmp-ai dependenci
-    "tzachar/cmp-ai", -- completition like copilot AI
   },
   config = function()
     local cmp = require("cmp")
     local luasnip = require("luasnip")
     local lspkind = require("lspkind")
-    local cmpAi = require("cmp_ai.config")
 
     -- loads vscode style snippets from installed plugins (e.g. friendly-snippets)
     require("luasnip.loaders.from_vscode").lazy_load()
-
-    -- AI config
-    cmpAi:setup({
-      provider = "Ollama",
-      provider_options = {
-        auto_unload = false,
-        model = "codegemma:2b",
-        prompt = function(lines_before, lines_after)
-          return lines_before
-        end,
-        suffix = function(lines_after)
-          return lines_after
-        end,
-      },
-    })
 
     cmp.setup({
       experimental = {
@@ -66,7 +48,6 @@ return {
       -- sources for autocompletion
       sources = cmp.config.sources({
         { name = "nvim_lsp" },
-        { name = "cmp_ai" },
         { name = "luasnip" }, -- snippets
         { name = "buffer" }, -- text within current buffer
         { name = "path" }, -- file system paths
