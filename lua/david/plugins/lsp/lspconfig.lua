@@ -59,9 +59,6 @@ return {
 
         opts.desc = "Restart LSP"
         keymap.set("n", "<leader>rs", ":LspRestart<CR>", opts) -- mapping to restart lsp if necessary
-
-        opts.desc = "Switch Source/Header (C/C++)"
-        keymap.set("n", "<leader>hc", "<cmd>ClangdSwitchSourceHeader<cr>", opts)
       end,
     })
 
@@ -136,19 +133,18 @@ return {
 
         lspconfig["csharp_ls"].setup({
           filetypes = { "c", "cpp" },
-          root_dir = function(fname)
-            return lspconfig.util.root_pattern(
-              "Makefile",
-              "configure.ac",
-              "configure.in",
-              "config.h.in",
-              "meson.build",
-              "meson_options.txt",
-              "build.ninja",
-              "compile_commands.json",
-              "compile_flags.txt"
-            )(fname) or lspconfig.util.root_pattern(".git")
-          end,
+          root_dir = lspconfig.util.root_pattern(
+            "Makefile",
+            "configure.ac",
+            "configure.in",
+            "config.h.in",
+            "meson.build",
+            "meson_options.txt",
+            "build.ninja",
+            "compile_commands.json",
+            "compile_flags.txt",
+            ".git"
+          ),
           capabilities = capabilities,
           cmd = {
             "clangd",
