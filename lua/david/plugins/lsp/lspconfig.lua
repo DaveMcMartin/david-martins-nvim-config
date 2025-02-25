@@ -5,7 +5,6 @@ return {
     "hrsh7th/cmp-nvim-lsp",
     { "antosha417/nvim-lsp-file-operations", config = true },
     { "folke/neodev.nvim", opts = {} },
-    "p00f/clangd_extensions.nvim",
   },
   config = function()
     local lspconfig = require("lspconfig")
@@ -136,6 +135,7 @@ return {
         capabilities.offsetEncoding = "utf-16"
 
         lspconfig["csharp_ls"].setup({
+          filetypes = { "c", "cpp" },
           root_dir = function(fname)
             return lspconfig.util.root_pattern(
               "Makefile",
@@ -144,10 +144,10 @@ return {
               "config.h.in",
               "meson.build",
               "meson_options.txt",
-              "build.ninja"
-            )(fname) or lspconfig.util.root_pattern("compile_commands.json", "compile_flags.txt")(fname) or lspconfig.util.find_git_ancestor(
-              fname
-            )
+              "build.ninja",
+              "compile_commands.json",
+              "compile_flags.txt"
+            )(fname) or lspconfig.util.root_pattern(".git")
           end,
           capabilities = capabilities,
           cmd = {
