@@ -132,7 +132,7 @@ return {
         capabilities.offsetEncoding = "utf-16"
 
         lspconfig["csharp_ls"].setup({
-          filetypes = { "c", "cpp" },
+          filetypes = { "c", "cpp", "h", "hpp" },
           root_dir = lspconfig.util.root_pattern(
             "Makefile",
             "configure.ac",
