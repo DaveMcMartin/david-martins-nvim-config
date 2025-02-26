@@ -131,7 +131,7 @@ return {
       ["clangd"] = function()
         capabilities.offsetEncoding = "utf-16"
 
-        lspconfig["csharp_ls"].setup({
+        lspconfig["clangd"].setup({
           filetypes = { "c", "cpp", "h", "hpp" },
           root_dir = lspconfig.util.root_pattern(
             "Makefile",
