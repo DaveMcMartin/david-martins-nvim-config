@@ -143,6 +143,8 @@ return {
             "build.ninja",
             "compile_commands.json",
             "compile_flags.txt",
+            "src/main.c",
+            ".clangd",
             ".git"
           ),
           capabilities = capabilities,
