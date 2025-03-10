@@ -14,6 +14,9 @@ opt.shiftwidth = 2 -- 2 spaces for indent width
 opt.expandtab = true -- expand tab to spaces
 opt.autoindent = true -- copy indent from current line when starting new one
 
+-- views can only be fully collapsed with the global statusline
+opt.laststatus = 3
+
 opt.wrap = false
 
 -- search settings
