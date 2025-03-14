@@ -1,34 +1,52 @@
 return {
-  "olimorris/codecompanion.nvim",
-  dependencies = {
-    "nvim-lua/plenary.nvim",
-    "nvim-treesitter/nvim-treesitter",
+  "yetone/avante.nvim",
+  event = "VeryLazy",
+  version = false,
+  opts = {
+    provider = "deepseek",
+    vendors = {
+      deepseek = {
+        __inherited_from = "openai",
+        api_key_name = "DEEPSEEK_API_KEY",
+        endpoint = "https://api.deepseek.com",
+        model = "deepseek-coder",
+      },
+    },
   },
-  config = function()
-    local codecompanion = require("codecompanion")
-    local keymap = vim.keymap -- for conciseness
-
-    codecompanion.setup({
-      strategies = {
-        chat = {
-          adapter = "deepseek",
-        },
-        inline = {
-          adapter = "deepseek",
+  build = "make",
+  dependencies = {
+    "nvim-treesitter/nvim-treesitter",
+    "stevearc/dressing.nvim",
+    "nvim-lua/plenary.nvim",
+    "MunifTanjim/nui.nvim",
+    "echasnovski/mini.pick",
+    "nvim-telescope/telescope.nvim",
+    "hrsh7th/nvim-cmp",
+    "ibhagwan/fzf-lua",
+    "nvim-tree/nvim-web-devicons",
+    {
+      "HakonHarnes/img-clip.nvim",
+      event = "VeryLazy",
+      opts = {
+        default = {
+          embed_image_as_base64 = false,
+          prompt_for_file_name = false,
+          drag_and_drop = {
+            insert_mode = true,
+          },
+          use_absolute_path = true,
         },
       },
-    })
-
-    keymap.set("n", "<leader>cc", "<cmd>CodeCompanionChat Toggle<CR>", { desc = "Opens code companion chat" })
-    keymap.set("n", "<leader>co", "<cmd>CodeCompanionActions<CR>", { desc = "Opens code companion actions" })
-    keymap.set(
-      "v",
-      "ga",
-      "<cmd>CodeCompanionChat Add<cr>",
-      { noremap = true, silent = true, desc = "Add selected text to the current Chat" }
-    )
-
-    -- Expand 'cc' into 'CodeCompanion' in the command line
-    vim.cmd([[cab cc CodeCompanion]])
-  end,
+    },
+    {
+      "MeanderingProgrammer/render-markdown.nvim",
+      opts = {
+        file_types = { "markdown", "Avante" },
+      },
+      ft = { "markdown", "Avante" },
+    },
+  },
+  keys = {
+    { "<leader>ax", "<cmd>AvanteClear<cr>", desc = "avante: Clear chat", mode = { "n" } },
+  },
 }
