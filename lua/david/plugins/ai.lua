@@ -12,6 +12,20 @@ return {
         model = "deepseek-coder",
       },
     },
+    rag_service = {
+      enabled = false,
+      host_mount = os.getenv("HOME") .. "/Projects",
+      provider = "ollama",
+      llm_model = "gemma3:4b",
+      embed_model = "nomic-embed-text",
+      endpoint = "http://host.docker.internal:11434",
+    },
+    auto_suggestions_provider = "deepseek",
+    cursor_applying_provider = "deepseek",
+    behavior = {
+      auto_suggestions = false,
+      enable_cursor_planning_mode = true,
+    },
   },
   build = "make",
   dependencies = {
