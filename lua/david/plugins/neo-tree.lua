@@ -13,12 +13,19 @@ return {
 
     neotree.setup({
       event_handlers = {
-        event = "neo_tree_buffer_enter",
-        handler = function()
-          vim.opt_local.relativenumber = true
-        end,
+        {
+          event = "neo_tree_buffer_enter",
+          handler = function(arg)
+            vim.cmd([[
+          setlocal relativenumber
+        ]])
+          end,
+        },
       },
       filesystem = {
+        filtered_items = {
+          visible = true,
+        },
         commands = {
           avante_add_files = function(state)
             local node = state.tree:get_node()
@@ -45,6 +52,8 @@ return {
         window = {
           mappings = {
             ["oa"] = "avante_add_files",
+            ["<tab>"] = { "toggle_preview", config = { use_float = true, use_image_nvim = true } },
+            ["<leader>ec"] = "close_all_nodes",
           },
         },
       },

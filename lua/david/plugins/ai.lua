@@ -3,7 +3,7 @@ return {
   event = "VeryLazy",
   version = false,
   opts = {
-    provider = "deepseek",
+    provider = "openai",
     vendors = {
       deepseek = {
         __inherited_from = "openai",
@@ -13,18 +13,27 @@ return {
       },
     },
     rag_service = {
-      enabled = false,
+      enabled = false, -- enabled it only when avante implement otimizations
       host_mount = os.getenv("HOME") .. "/Projects",
       provider = "ollama",
       llm_model = "gemma3:4b",
       embed_model = "nomic-embed-text",
       endpoint = "http://host.docker.internal:11434",
     },
-    auto_suggestions_provider = "deepseek",
-    cursor_applying_provider = "deepseek",
+    auto_suggestions_provider = "openai",
     behavior = {
       auto_suggestions = false,
-      enable_cursor_planning_mode = true,
+      auto_set_highlight_group = true,
+      auto_set_keymaps = true,
+      enable_cursor_planning_mode = false, -- must be true any model that is not claude or openapi
+    },
+    mappings = {
+      suggestion = {
+        accept = "<C-l>",
+        next = "<C-]>",
+        prev = "<C-[>",
+        dismiss = "<C-x>",
+      },
     },
   },
   build = "make",
@@ -35,7 +44,6 @@ return {
     "MunifTanjim/nui.nvim",
     "echasnovski/mini.pick",
     "nvim-telescope/telescope.nvim",
-    "hrsh7th/nvim-cmp",
     "ibhagwan/fzf-lua",
     "nvim-tree/nvim-web-devicons",
     {
