@@ -1,7 +1,6 @@
 return {
   "saghen/blink.cmp",
   dependencies = {
-    "rafamadriz/friendly-snippets",
     "Kaiser-Yang/blink-cmp-avante",
     "folke/noice.nvim",
     {
@@ -22,7 +21,7 @@ return {
       ["<C-b>"] = { "scroll_documentation_up", "fallback" },
       ["<C-f>"] = { "scroll_documentation_down", "fallback" },
       ["<C-s>"] = { "show", "fallback" },
-      ["<CR>"] = { "accept", "fallback" },
+      ["<Tab>"] = { "accept", "fallback" },
     },
     appearance = {
       use_nvim_cmp_as_default = true,
@@ -36,7 +35,7 @@ return {
           opts = {},
         },
       },
-      default = { "avante", "lsp", "snippets", "buffer", "path" },
+      default = { "avante", "lsp", "buffer", "path" },
     },
     fuzzy = { implementation = "prefer_rust_with_warning" },
     completion = {

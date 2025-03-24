@@ -4,6 +4,9 @@ return {
   version = false,
   opts = {
     provider = "openai",
+    openai = {
+      reasoning_effort = "high",
+    },
     vendors = {
       deepseek = {
         __inherited_from = "openai",
@@ -25,7 +28,7 @@ return {
       auto_suggestions = false,
       auto_set_highlight_group = true,
       auto_set_keymaps = true,
-      enable_cursor_planning_mode = false, -- must be true any model that is not claude or openapi
+      enable_cursor_planning_mode = true,
     },
     mappings = {
       suggestion = {
