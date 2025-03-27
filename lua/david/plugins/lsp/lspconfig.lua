@@ -116,9 +116,9 @@ return {
           },
         })
       end,
-      ["omnisharp"] = function()
-        lspconfig["omnisharp"].setup({
-          cmd = { "/opt/omnisharp/omnisharp" },
+      ["csharp_ls"] = function()
+        lspconfig["csharp_ls"].setup({
+          cmd = { "csharp-ls" },
           settings = {
             enablePackageRestore = false,
             enableEditorConfigSupport = true,

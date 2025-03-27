@@ -6,6 +6,13 @@ return {
     "nvim-tree/nvim-web-devicons",
     "MunifTanjim/nui.nvim",
     { "3rd/image.nvim", opts = {} },
+    {
+      "s1n7ax/nvim-window-picker",
+      name = "window-picker",
+      event = "VeryLazy",
+      version = "2.*",
+      opts = {},
+    },
   },
   config = function()
     local neotree = require("neo-tree")
