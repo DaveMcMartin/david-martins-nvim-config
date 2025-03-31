@@ -3,9 +3,13 @@ return {
   event = "VeryLazy",
   version = false,
   opts = {
-    provider = "openai",
+    provider = "deepseek",
     openai = {
+      model = "o1",
       reasoning_effort = "high",
+    },
+    gemini = {
+      model = "gemini-2.5-pro-exp-03-25",
     },
     vendors = {
       deepseek = {
@@ -13,6 +17,7 @@ return {
         api_key_name = "DEEPSEEK_API_KEY",
         endpoint = "https://api.deepseek.com",
         model = "deepseek-coder",
+        max_tokens = 8192,
       },
     },
     rag_service = {
