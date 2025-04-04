@@ -3,7 +3,7 @@ return {
   event = "VeryLazy",
   version = false,
   opts = {
-    provider = "deepseek",
+    provider = "claude",
     openai = {
       model = "o1",
       reasoning_effort = "high",
@@ -28,7 +28,7 @@ return {
       embed_model = "nomic-embed-text",
       endpoint = "http://host.docker.internal:11434",
     },
-    auto_suggestions_provider = "openai",
+    auto_suggestions_provider = "claude",
     behavior = {
       auto_suggestions = false,
       auto_set_highlight_group = true,
