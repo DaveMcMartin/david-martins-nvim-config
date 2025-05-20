@@ -128,6 +128,44 @@ return {
           root_dir = lspconfig.util.root_pattern("*.sln", "*.csproj", ".git"),
         })
       end,
+      ["rust-analyzer"] = function()
+        lspconfig["rust-analyzer"].setup({
+          filetypes = { "rs", "rust" },
+          settings = {
+            ["rust-analyzer"] = {
+              inlayHints = {
+                enable = true,
+                typeHints = { prefix = "» " },
+                parameterHints = { prefix = "→ " },
+                chainingHints = { enable = true },
+              },
+              imports = {
+                granularity = {
+                  group = "module",
+                },
+                prefix = "self",
+              },
+              workspace = {
+                symbol = {
+                  search = {
+                    scope = "workspace_and_dependencies",
+                  },
+                },
+              },
+              diagnostics = {
+                enable = true,
+                experimental = {
+                  enable = true,
+                },
+              },
+              cargo = {
+                allFeatures = true,
+                loadOutDirsFromCheck = true,
+              },
+            },
+          },
+        })
+      end,
       ["clangd"] = function()
         capabilities.offsetEncoding = "utf-16"
 

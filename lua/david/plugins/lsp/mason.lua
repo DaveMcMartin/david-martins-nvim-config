@@ -34,6 +34,7 @@ return {
         "pyright",
         "csharp_ls",
         "ruby_lsp",
+        "rust-analyzer",
         "clangd",
       },
     })
@@ -51,6 +52,7 @@ return {
         "csharpier", -- C# formatter
         "erb-lint", -- embeded ruby lintint
         "clangd", -- c formatter
+        "rust-analyzer",
       },
     })
   end,

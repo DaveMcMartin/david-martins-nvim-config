@@ -3,7 +3,7 @@ return {
   event = "VeryLazy",
   version = false,
   opts = {
-    provider = "claude",
+    provider = "deepseek",
     openai = {
       model = "o1",
       reasoning_effort = "high",
