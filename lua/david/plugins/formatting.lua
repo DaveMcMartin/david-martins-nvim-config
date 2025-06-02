@@ -16,12 +16,11 @@ return {
         yaml = { "yamlfix" },
         markdown = { "prettier" },
         graphql = { "prettier" },
-        liquid = { "prettier" },
         lua = { "stylua" },
         python = { "black" },
         csharp = { "csharpier" },
         ruby = { "rubocop" },
-        eruby = { "erb_format" },
+        eruby = { "rubocop" },
       },
       format_on_save = false,
     })

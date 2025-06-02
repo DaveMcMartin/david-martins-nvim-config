@@ -2,6 +2,8 @@ return {
   "neovim/nvim-lspconfig",
   event = { "BufReadPre", "BufNewFile" },
   dependencies = {
+    "williamboman/mason.nvim",
+    "mason-org/mason-lspconfig.nvim",
     "hrsh7th/cmp-nvim-lsp",
     { "antosha417/nvim-lsp-file-operations", config = true },
     { "folke/neodev.nvim", opts = {} },
@@ -62,146 +64,179 @@ return {
       end,
     })
 
+    vim.diagnostic.config({
+      signs = {
+        text = {
+          [vim.diagnostic.severity.ERROR] = " ",
+          [vim.diagnostic.severity.WARN] = " ",
+          [vim.diagnostic.severity.HINT] = "󰠠 ",
+          [vim.diagnostic.severity.INFO] = " ",
+        },
+        linehl = {
+          [vim.diagnostic.severity.ERROR] = "ErrorMsg",
+          [vim.diagnostic.severity.WARN] = "WarningMsg",
+          [vim.diagnostic.severity.HINT] = "DiagnosticHint",
+          [vim.diagnostic.severity.INFO] = "DiagnosticInfo",
+        },
+        numhl = {
+          [vim.diagnostic.severity.ERROR] = "",
+          [vim.diagnostic.severity.WARN] = "",
+          [vim.diagnostic.severity.HINT] = "",
+          [vim.diagnostic.severity.INFO] = "",
+        },
+      },
+    })
+
     -- used to enable autocompletion (assign to every lsp server config)
     local capabilities = cmp_nvim_lsp.default_capabilities()
 
-    -- Change the Diagnostic symbols in the sign column (gutter)
-    -- (not in youtube nvim video)
-    local signs = { Error = " ", Warn = " ", Hint = "󰠠 ", Info = " " }
-    for type, icon in pairs(signs) do
-      local hl = "DiagnosticSign" .. type
-      vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
-    end
-
-    mason_lspconfig.setup_handlers({
-      -- default handler for installed servers
-      function(server_name)
-        lspconfig[server_name].setup({
-          capabilities = capabilities,
-        })
-      end,
-      ["elixirls"] = function()
-        lspconfig["elixirls"].setup({
-          capabilities = capabilities,
-        })
-      end,
-      ["graphql"] = function()
-        -- configure graphql language server
-        lspconfig["graphql"].setup({
-          capabilities = capabilities,
-          filetypes = { "graphql", "gql", "typescriptreact", "javascriptreact" },
-        })
-      end,
-      ["emmet_ls"] = function()
-        -- configure emmet language server
-        lspconfig["emmet_ls"].setup({
-          capabilities = capabilities,
-          filetypes = { "html", "typescriptreact", "javascriptreact", "css", "sass", "scss", "less" },
-        })
-      end,
-      ["lua_ls"] = function()
-        -- configure lua server (with special settings)
-        lspconfig["lua_ls"].setup({
-          capabilities = capabilities,
-          settings = {
-            Lua = {
-              -- make the language server recognize "vim" global
-              diagnostics = {
-                globals = { "vim" },
-              },
-              completion = {
-                callSnippet = "Replace",
+    mason_lspconfig.setup({
+      ensure_installed = {
+        "ts_ls",
+        "html",
+        "cssls",
+        "tailwindcss",
+        "lua_ls",
+        "graphql",
+        "emmet_ls",
+        "prismals",
+        "pyright",
+        "csharp_ls",
+        "ruby_lsp",
+        "rust_analyzer",
+        "clangd",
+        "elixirls",
+      },
+      handlers = {
+        -- default handler for installed servers
+        function(server_name)
+          lspconfig[server_name].setup({
+            capabilities = capabilities,
+          })
+        end,
+        ["elixirls"] = function()
+          lspconfig["elixirls"].setup({
+            capabilities = capabilities,
+          })
+        end,
+        ["graphql"] = function()
+          -- configure graphql language server
+          lspconfig["graphql"].setup({
+            capabilities = capabilities,
+            filetypes = { "graphql", "gql", "typescriptreact", "javascriptreact" },
+          })
+        end,
+        ["emmet_ls"] = function()
+          -- configure emmet language server
+          lspconfig["emmet_ls"].setup({
+            capabilities = capabilities,
+            filetypes = { "html", "typescriptreact", "javascriptreact", "css", "sass", "scss", "less" },
+          })
+        end,
+        ["lua_ls"] = function()
+          -- configure lua server (with special settings)
+          lspconfig["lua_ls"].setup({
+            capabilities = capabilities,
+            settings = {
+              Lua = {
+                -- make the language server recognize "vim" global
+                diagnostics = {
+                  globals = { "vim" },
+                },
+                completion = {
+                  callSnippet = "Replace",
+                },
               },
             },
-          },
-        })
-      end,
-      ["csharp_ls"] = function()
-        lspconfig["csharp_ls"].setup({
-          cmd = { "csharp-ls" },
-          settings = {
-            enablePackageRestore = false,
-            enableEditorConfigSupport = true,
-            includePrereleases = true,
-          },
-          filetypes = { "cs" },
-          root_dir = lspconfig.util.root_pattern("*.sln", "*.csproj", ".git"),
-        })
-      end,
-      ["rust-analyzer"] = function()
-        lspconfig["rust-analyzer"].setup({
-          filetypes = { "rs", "rust" },
-          settings = {
-            ["rust-analyzer"] = {
-              inlayHints = {
-                enable = true,
-                typeHints = { prefix = "» " },
-                parameterHints = { prefix = "→ " },
-                chainingHints = { enable = true },
-              },
-              imports = {
-                granularity = {
-                  group = "module",
+          })
+        end,
+        ["csharp_ls"] = function()
+          lspconfig["csharp_ls"].setup({
+            cmd = { "csharp-ls" },
+            settings = {
+              enablePackageRestore = false,
+              enableEditorConfigSupport = true,
+              includePrereleases = true,
+            },
+            filetypes = { "cs" },
+            root_dir = lspconfig.util.root_pattern("*.sln", "*.csproj", ".git"),
+          })
+        end,
+        ["rust_analyzer"] = function()
+          lspconfig["rust_analyzer"].setup({
+            filetypes = { "rs", "rust" },
+            settings = {
+              ["rust-analyzer"] = {
+                inlayHints = {
+                  enable = true,
+                  typeHints = { prefix = "» " },
+                  parameterHints = { prefix = "→ " },
+                  chainingHints = { enable = true },
                 },
-                prefix = "self",
-              },
-              workspace = {
-                symbol = {
-                  search = {
-                    scope = "workspace_and_dependencies",
+                imports = {
+                  granularity = {
+                    group = "module",
+                  },
+                  prefix = "self",
+                },
+                workspace = {
+                  symbol = {
+                    search = {
+                      scope = "workspace_and_dependencies",
+                    },
                   },
                 },
-              },
-              diagnostics = {
-                enable = true,
-                experimental = {
+                diagnostics = {
                   enable = true,
+                  experimental = {
+                    enable = true,
+                  },
+                },
+                cargo = {
+                  allFeatures = true,
+                  loadOutDirsFromCheck = true,
                 },
               },
-              cargo = {
-                allFeatures = true,
-                loadOutDirsFromCheck = true,
-              },
             },
-          },
-        })
-      end,
-      ["clangd"] = function()
-        capabilities.offsetEncoding = "utf-16"
+          })
+        end,
+        ["clangd"] = function()
+          capabilities.offsetEncoding = "utf-16"
 
-        lspconfig["clangd"].setup({
-          filetypes = { "c", "cpp", "h", "hpp" },
-          root_dir = lspconfig.util.root_pattern(
-            "Makefile",
-            "configure.ac",
-            "configure.in",
-            "config.h.in",
-            "meson.build",
-            "meson_options.txt",
-            "build.ninja",
-            "compile_commands.json",
-            "compile_flags.txt",
-            "src/main.c",
-            ".clangd",
-            ".git"
-          ),
-          capabilities = capabilities,
-          cmd = {
-            "clangd",
-            "--background-index",
-            "--clang-tidy",
-            "--header-insertion=iwyu",
-            "--completion-style=detailed",
-            "--function-arg-placeholders",
-            "--fallback-style=llvm",
-          },
-          init_options = {
-            usePlaceholders = true,
-            completeUnimported = true,
-            clangdFileStatus = true,
-          },
-        })
-      end,
+          lspconfig["clangd"].setup({
+            filetypes = { "c", "cpp", "h", "hpp" },
+            root_dir = lspconfig.util.root_pattern(
+              "Makefile",
+              "configure.ac",
+              "configure.in",
+              "config.h.in",
+              "meson.build",
+              "meson_options.txt",
+              "build.ninja",
+              "compile_commands.json",
+              "compile_flags.txt",
+              "src/main.c",
+              ".clangd",
+              ".git"
+            ),
+            capabilities = capabilities,
+            cmd = {
+              "clangd",
+              "--background-index",
+              "--clang-tidy",
+              "--header-insertion=iwyu",
+              "--completion-style=detailed",
+              "--function-arg-placeholders",
+              "--fallback-style=llvm",
+            },
+            init_options = {
+              usePlaceholders = true,
+              completeUnimported = true,
+              clangdFileStatus = true,
+            },
+          })
+        end,
+      },
     })
   end,
 }
