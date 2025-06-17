@@ -3,7 +3,7 @@ return {
   event = "VeryLazy",
   version = false,
   opts = {
-    provider = "deepseek",
+    provider = "gemini",
     providers = {
       openai = {
         model = "o1",
@@ -12,10 +12,11 @@ return {
         },
       },
       gemini = {
-        model = "gemini-2.5-pro-exp-03-25",
+        model = "gemini-2.5-flash",
+        extra_request_body = {
+          temperature = 0.5,
+        },
       },
-    },
-    vendors = {
       deepseek = {
         __inherited_from = "openai",
         api_key_name = "DEEPSEEK_API_KEY",
