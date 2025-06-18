@@ -9,6 +9,12 @@ return {
     -- import nvim-treesitter plugin
     local treesitter = require("nvim-treesitter.configs")
 
+    vim.filetype.add({
+      pattern = {
+        [".*%.axaml"] = "xml",
+      },
+    })
+
     -- configure treesitter
     treesitter.setup({ -- enable syntax highlighting
       highlight = {
@@ -47,6 +53,7 @@ return {
         "elixir",
         "eex",
         "python",
+        "xml",
       },
       incremental_selection = {
         enable = true,

@@ -12,6 +12,7 @@ return {
         typescriptreact = { "prettier" },
         css = { "prettier" },
         html = { "prettier" },
+        xml = { "prettier" },
         json = { "prettier" },
         yaml = { "yamlfix" },
         markdown = { "prettier" },
