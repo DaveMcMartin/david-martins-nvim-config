@@ -3,7 +3,7 @@ return {
   event = "VeryLazy",
   version = false,
   opts = {
-    provider = "gemini",
+    provider = "xai",
     providers = {
       openai = {
         model = "o1",
@@ -25,6 +25,12 @@ return {
         extra_request_body = {
           max_tokens = 8192,
         },
+      },
+      xai = {
+        __inherited_from = "openai",
+        api_key_name = "XAI_API_KEY",
+        endpoint = "https://api.x.ai/v1",
+        model = "grok-3-mini",
       },
     },
     rag_service = {
