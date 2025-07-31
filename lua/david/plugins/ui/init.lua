@@ -1,0 +1,16 @@
+return {
+  { import = "david.plugins.ui.bufferline" },
+  { import = "david.plugins.ui.colorscheme" },
+  { import = "david.plugins.ui.dressing" },
+  { import = "david.plugins.ui.indent-blankline" },
+  { import = "david.plugins.ui.lualine" },
+  { import = "david.plugins.ui.neo-tree" },
+  { import = "david.plugins.ui.noice" },
+  { import = "david.plugins.ui.notify" },
+  { import = "david.plugins.ui.nvim-cmp" },
+  { import = "david.plugins.ui.telescope" },
+  { import = "david.plugins.ui.todo-comments" },
+  { import = "david.plugins.ui.trouble" },
+  { import = "david.plugins.ui.vim-maximizer" },
+  { import = "david.plugins.ui.which-key" },
+}

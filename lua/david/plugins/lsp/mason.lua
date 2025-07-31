@@ -23,7 +23,6 @@ return {
         "stylua",
         "black",
         "yamlfix",
-        "rubocop",
         "csharpier",
       },
     })
