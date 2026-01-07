@@ -1,20 +1,8 @@
-return {
-  "rcarriga/nvim-dap-ui",
-  dependencies = {
-    "Cliffback/netcoredbg-macOS-arm64.nvim",
-    "mfussenegger/nvim-dap",
-    "nvim-neotest/nvim-nio",
-    "theHamsta/nvim-dap-virtual-text",
-    "mxsdev/nvim-dap-vscode-js",
-  },
-  config = function()
-    local dap = require("dap")
-    local dapui = require("dapui")
+local dap = require("dap")
+local dapui = require("dapui")
 
-    -- Setup dependencies
-    require("netcoredbg-macOS-arm64").setup(dap)
-    dapui.setup()
-    require("nvim-dap-virtual-text").setup({})
+dapui.setup()
+require("nvim-dap-virtual-text").setup({})
 
     -- highlight current Breakpoint Line
     local sign = vim.fn.sign_define
@@ -81,86 +69,84 @@ return {
       return nil
     end
 
-    -- C# setup
-    local netcoredbg_path = vim.fn.exepath("netcoredbg")
+-- C# setup
+local netcoredbg_path = vim.fn.exepath("netcoredbg")
 
-    if netcoredbg_path ~= "" then
-      dap.adapters.coreclr = {
-        type = "executable",
-        command = netcoredbg_path,
-        args = { "--interpreter=vscode" },
-        env = {
-          ASPNETCORE_ENVIRONMENT = "development",
-        },
-      }
-      dap.adapters.netcoredbg = vim.deepcopy(dap.adapters.coreclr)
-    end
+if netcoredbg_path ~= "" then
+  dap.adapters.coreclr = {
+    type = "executable",
+    command = netcoredbg_path,
+    args = { "--interpreter=vscode" },
+    env = {
+      ASPNETCORE_ENVIRONMENT = "development",
+    },
+  }
+  dap.adapters.netcoredbg = vim.deepcopy(dap.adapters.coreclr)
+end
 
-    dap.configurations.cs = {
-      {
-        type = "coreclr",
-        name = "Launch - .NET Core",
-        request = "launch",
-        program = function()
-          return get_dll_path() or ""
-        end,
-        cwd = "${workspaceFolder}",
-        stopAtEntry = false,
-        env = {
-          ASPNETCORE_ENVIRONMENT = "development",
-        },
-      },
-    }
-
-    -- JavaScript/TypeScript setup (unchanged)
-    require("dap-vscode-js").setup({
-      adapters = { "pwa-node", "pwa-chrome", "pwa-msedge", "node-terminal", "pwa-extensionHost" },
-    })
-
-    for _, language in ipairs({ "typescript", "javascript" }) do
-      dap.configurations[language] = {
-        {
-          type = "pwa-node",
-          request = "launch",
-          name = "Launch file",
-          program = "${file}",
-          cwd = "${workspaceFolder}",
-        },
-        {
-          type = "pwa-node",
-          request = "attach",
-          name = "Attach",
-          processId = require("dap.utils").pick_process,
-          cwd = "${workspaceFolder}",
-        },
-      }
-    end
-
-    -- Key mappings (unchanged)
-    vim.keymap.set("n", "<leader>b", dap.toggle_breakpoint, { desc = "Toggle Breakpoint" })
-    vim.keymap.set("n", "<leader>gb", dap.run_to_cursor, { desc = "Run to Cursor" })
-    vim.keymap.set("n", "<leader>dc", dap.continue, { desc = "Continue" })
-    vim.keymap.set("n", "<leader>di", dap.step_into, { desc = "Step Into" })
-    vim.keymap.set("n", "<leader>do", dap.step_over, { desc = "Step Over" })
-    vim.keymap.set("n", "<leader>dt", dap.step_out, { desc = "Step Out" })
-    vim.keymap.set("n", "<leader>db", dap.step_back, { desc = "Step Back" })
-    vim.keymap.set("n", "<leader>dr", dap.restart, { desc = "Restart Debug" })
-    vim.keymap.set("n", "<leader>?", function()
-      dapui.eval(nil, { enter = true })
-    end)
-    vim.keymap.set("n", "<leader>du", dapui.toggle, { desc = "Toggle DAP UI" })
-
-    -- DAP UI event handlers (unchanged)
-    dap.listeners.after.event_initialized["dapui_config"] = function()
-      dapui.open()
-    end
-
-    dap.listeners.before.event_terminated["dapui_config"] = function()
-      dapui.close()
-    end
-
-    dap.listeners.before.event_exited["dapui_config"] = function()
-      dapui.close()
-    end
-  end,
+dap.configurations.cs = {
+  {
+    type = "coreclr",
+    name = "Launch - .NET Core",
+    request = "launch",
+    program = function()
+      return get_dll_path() or ""
+    end,
+    cwd = "${workspaceFolder}",
+    stopAtEntry = false,
+    env = {
+      ASPNETCORE_ENVIRONMENT = "development",
+    },
+  },
 }
+
+-- JavaScript/TypeScript setup (unchanged)
+require("dap-vscode-js").setup({
+  adapters = { "pwa-node", "pwa-chrome", "pwa-msedge", "node-terminal", "pwa-extensionHost" },
+})
+
+for _, language in ipairs({ "typescript", "javascript" }) do
+  dap.configurations[language] = {
+    {
+      type = "pwa-node",
+      request = "launch",
+      name = "Launch file",
+      program = "${file}",
+      cwd = "${workspaceFolder}",
+    },
+    {
+      type = "pwa-node",
+      request = "attach",
+      name = "Attach",
+      processId = require("dap.utils").pick_process,
+      cwd = "${workspaceFolder}",
+    },
+  }
+end
+
+-- Key mappings (unchanged)
+vim.keymap.set("n", "<leader>b", dap.toggle_breakpoint, { desc = "Toggle Breakpoint" })
+vim.keymap.set("n", "<leader>gb", dap.run_to_cursor, { desc = "Run to Cursor" })
+vim.keymap.set("n", "<leader>dc", dap.continue, { desc = "Continue" })
+vim.keymap.set("n", "<leader>di", dap.step_into, { desc = "Step Into" })
+vim.keymap.set("n", "<leader>do", dap.step_over, { desc = "Step Over" })
+vim.keymap.set("n", "<leader>dt", dap.step_out, { desc = "Step Out" })
+vim.keymap.set("n", "<leader>db", dap.step_back, { desc = "Step Back" })
+vim.keymap.set("n", "<leader>dr", dap.restart, { desc = "Restart Debug" })
+vim.keymap.set("n", "<leader>?", function()
+  dapui.eval(nil, { enter = true })
+end)
+vim.keymap.set("n", "<leader>du", dapui.toggle, { desc = "Toggle DAP UI" })
+
+-- DAP UI event handlers (unchanged)
+dap.listeners.after.event_initialized["dapui_config"] = function()
+  dapui.open()
+end
+
+dap.listeners.before.event_terminated["dapui_config"] = function()
+  dapui.close()
+end
+
+dap.listeners.before.event_exited["dapui_config"] = function()
+  dapui.close()
+end

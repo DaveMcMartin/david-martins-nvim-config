@@ -1,0 +1,28 @@
+# Plugin directories (vim pack structure)
+# Ignore all plugins and their build artifacts
+pack/
+
+# Language server and package managers
+.cache/
+.venv/
+node_modules/
+__pycache__/
+.cargo/
+target/
+
+# Editor and IDE
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Neovim specific
+.luarc.json.generated
+lazy-lock.json
+
+# Build and test artifacts
+dist/
+build/
+coverage/
+.eslintcache
+.prettierignore

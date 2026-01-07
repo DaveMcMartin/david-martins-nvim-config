@@ -1,15 +1,9 @@
-return {
-  "folke/trouble.nvim",
-  dependencies = { "nvim-tree/nvim-web-devicons" },
-  cmd = { "Trouble", "TroubleToggle" },
-  keys = {
-    { "<leader>xx", "<cmd>Trouble<CR>", desc = "Toggle Trouble list" },
-    { "<leader>xw", "<cmd>Trouble workspace_diagnostics<CR>", desc = "Workspace Diagnostics" },
-    { "<leader>xd", "<cmd>Trouble document_diagnostics<CR>", desc = "Document Diagnostics" },
-    { "<leader>xl", "<cmd>Trouble loclist<CR>", desc = "Location List" },
-    { "<leader>xq", "<cmd>Trouble quickfix<CR>", desc = "Quickfix List" },
-  },
-  config = function()
-    require("trouble").setup({})
-  end,
-}
+local keymap = vim.keymap
+
+keymap.set("n", "<leader>xx", "<cmd>Trouble<CR>", { desc = "Toggle Trouble list" })
+keymap.set("n", "<leader>xw", "<cmd>Trouble workspace_diagnostics<CR>", { desc = "Workspace Diagnostics" })
+keymap.set("n", "<leader>xd", "<cmd>Trouble document_diagnostics<CR>", { desc = "Document Diagnostics" })
+keymap.set("n", "<leader>xl", "<cmd>Trouble loclist<CR>", { desc = "Location List" })
+keymap.set("n", "<leader>xq", "<cmd>Trouble quickfix<CR>", { desc = "Quickfix List" })
+
+require("trouble").setup({})

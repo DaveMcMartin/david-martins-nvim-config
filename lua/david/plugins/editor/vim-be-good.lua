@@ -1,3 +1,1 @@
-return {
-  "ThePrimeagen/vim-be-good",
-}
+-- vim-be-good has no setup required

@@ -1,18 +1,7 @@
-return {
-  "hrsh7th/nvim-cmp",
-  event = "InsertEnter",
-  dependencies = {
-    "hrsh7th/cmp-buffer", -- source for text in buffer
-    "hrsh7th/cmp-cmdline",
-    "hrsh7th/cmp-path", -- source for file system paths
-    "saadparwaiz1/cmp_luasnip", -- for autocompletion
-    "onsails/lspkind.nvim", -- vs-code like pictograms
-  },
-  config = function()
-    local cmp = require("cmp")
-    local lspkind = require("lspkind")
+local cmp = require("cmp")
+local lspkind = require("lspkind")
 
-    cmp.setup({
+cmp.setup({
       completion = {
         completeopt = "menu,menuone,preview,noselect",
       },
@@ -27,7 +16,6 @@ return {
       }),
       -- sources for autocompletion
       sources = cmp.config.sources({
-        { name = "avante" }, -- ai
         { name = "nvim_lsp" },
         { name = "buffer" }, -- text within current buffer
         { name = "path" }, -- file system paths
@@ -55,5 +43,3 @@ return {
         },
       }),
     })
-  end,
-}

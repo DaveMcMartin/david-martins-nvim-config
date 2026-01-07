@@ -1,7 +1,4 @@
-return {
-  "lewis6991/gitsigns.nvim",
-  event = { "BufReadPre", "BufNewFile" },
-  opts = {
+require("gitsigns").setup({
     signs = {
       add = { text = "│" },
       change = { text = "│" },
@@ -80,5 +77,4 @@ return {
       -- Text object
       map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>", "Gitsigns select hunk")
     end,
-  },
-}
+  })

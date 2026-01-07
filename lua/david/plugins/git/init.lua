@@ -1,5 +1,3 @@
-return {
-  "christoomey/vim-tmux-navigator",
-  { import = "david.plugins.git.gitsigns" },
-  { import = "david.plugins.git.lazygit" },
-}
+-- Git plugins configuration
+require("david.plugins.git.gitsigns")
+require("david.plugins.git.lazygit")

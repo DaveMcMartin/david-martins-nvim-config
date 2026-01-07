@@ -1,9 +1,8 @@
-return {
-  { import = "david.plugins.editor.autopairs" },
-  { import = "david.plugins.editor.comment" },
-  { import = "david.plugins.editor.formatting" },
-  { import = "david.plugins.editor.neo-test" },
-  { import = "david.plugins.editor.substitute" },
-  { import = "david.plugins.editor.surround" },
-  { import = "david.plugins.editor.vim-be-good" },
-}
+-- Editor plugins configuration
+require("david.plugins.editor.autopairs")
+require("david.plugins.editor.comment")
+require("david.plugins.editor.formatting")
+require("david.plugins.editor.neo-test")
+require("david.plugins.editor.substitute")
+require("david.plugins.editor.surround")
+require("david.plugins.editor.vim-be-good")

@@ -1,7 +1,6 @@
-return {
-  { import = "david.plugins.lsp.linting" },
-  { import = "david.plugins.lsp.lspconfig" },
-  { import = "david.plugins.lsp.mason" },
-  { import = "david.plugins.lsp.flutter" },
-}
+-- LSP plugins configuration
+require("david.plugins.lsp.mason")
+require("david.plugins.lsp.lspconfig")
+require("david.plugins.lsp.linting")
+require("david.plugins.lsp.flutter")
 

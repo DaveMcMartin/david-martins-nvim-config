@@ -1,2 +1,2 @@
 require("david.core")
-require("david.lazy")
+require("david.pack").setup()

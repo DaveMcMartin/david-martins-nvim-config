@@ -1,3 +1,2 @@
-return {
-  { import = "david.plugins.utils.kitty" },
-}
+-- Utility plugins configuration
+-- (no utilities currently configured)
