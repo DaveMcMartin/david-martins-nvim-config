@@ -97,6 +97,7 @@ vim.diagnostic.config({
         "rust_analyzer",
         "clangd",
         "elixirls",
+        "zls",
       },
       handlers = {
         -- default handler for installed servers
