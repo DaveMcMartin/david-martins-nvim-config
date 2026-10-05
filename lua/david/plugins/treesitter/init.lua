@@ -18,6 +18,7 @@ require("nvim-treesitter").setup({
     "python",
     "query",
     "rust",
+    "svelte",
     "tsx",
     "typescript",
     "vim",

@@ -96,6 +96,7 @@ vim.diagnostic.config({
         "ruby_lsp",
         "rust_analyzer",
         "clangd",
+        "svelte",
         "elixirls",
         "zls",
       },
