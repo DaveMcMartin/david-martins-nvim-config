@@ -6,7 +6,6 @@ lint.linters_by_ft = {
   javascriptreact = { "eslint_d" },
   typescriptreact = { "eslint_d" },
   python = { "pylint" },
-  erb = { "erb_lint" },
 }
 
 -- Add a custom path for pylint

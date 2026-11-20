@@ -53,6 +53,7 @@ require("nvim-dap-virtual-text").setup({})
 
       -- Look for the DLL in standard output paths
       local possible_paths = {
+        string.format("%s/bin/Debug/net10.0/%s.dll", project_dir, project_name),
         string.format("%s/bin/Debug/net9.0/%s.dll", project_dir, project_name),
         string.format("%s/bin/Debug/net8.0/%s.dll", project_dir, project_name),
         string.format("%s/bin/Debug/net7.0/%s.dll", project_dir, project_name),

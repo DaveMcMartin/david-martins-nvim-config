@@ -16,8 +16,6 @@ conform.setup({
     lua = { "stylua" },
     python = { "black" },
     csharp = { "csharpier" },
-    ruby = { "rubocop" },
-    eruby = { "rubocop" },
   },
   format_on_save = false,
 })

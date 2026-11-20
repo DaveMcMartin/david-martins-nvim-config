@@ -93,7 +93,6 @@ vim.diagnostic.config({
         "prismals",
         "pyright",
         "csharp_ls",
-        "ruby_lsp",
         "rust_analyzer",
         "clangd",
         "svelte",

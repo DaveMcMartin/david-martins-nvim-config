@@ -1,5 +1,8 @@
 vim.cmd("let g:netrw_liststyle = 3")
 
+-- Ruby is not installed. Skip the provider so :checkhealth does not look for it.
+vim.g.loaded_ruby_provider = 0
+
 local opt = vim.opt
 
 -- cursor, use default always
@@ -23,8 +26,7 @@ opt.wrap = false
 opt.ignorecase = true -- ignore case when searching
 opt.smartcase = true -- if you include mixed case in your search, assumes you want case-sensitive
 
--- turn on termguicolors for tokyonight colorscheme to work
--- (have to use iterm2 or any other true color terminal)
+-- True color, so Catppuccin Mocha renders in the terminal and in tmux.
 opt.termguicolors = true
 opt.background = "dark" -- colorschemes that can be light or dark will be made dark
 opt.signcolumn = "yes" -- show sign column so that text doesn't shift
